@@ -50,12 +50,14 @@ class VideoDoorbell(Camera):
           self.__gpio_board: str = gpio_board
           self.__gpio: 'GPIO' = None
         
-
           super().__init__(
                driver = driver,
                display_name = display_name,
                aid = aid,
-               iid_manager = iid_manager
+               iid_manager = iid_manager,
+               ffmpeg_debug = ffmpeg_debug,
+               logger = logger,
+
           )
 
 
