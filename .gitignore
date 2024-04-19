@@ -1,0 +1,16 @@
+*.pyc
+*.log
+.venv/*
+.venv
+__pycache__/
+*.py[cod]
+*$py.class
+*.ppk
+log/
+
+*.egg-info*
+*.eggs
+build/
+dist
+.lh/*
+*.state

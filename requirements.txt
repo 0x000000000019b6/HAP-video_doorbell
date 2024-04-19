@@ -1,0 +1,4 @@
+HAP-python[QRCode]>=4.9.1
+RPi.GPIO>=0.7.1
+Pillow>=10.3.0
+aiofiles>=23.2.1
