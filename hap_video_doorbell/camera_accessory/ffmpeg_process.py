@@ -5,24 +5,19 @@ import logging
 
 class FfmpegProcess:
 
+    log: Logger
+    ffmpeg_log: Logger
+    ffmpeg_debug: bool = True
+
     def __init__(self,
                 process_name: str,
                 ffmpeg_args: list,
-                ffmpeg_debug: bool = False,
-                log = Logger.getLogger('FfmpegProcess'),
-                ffmpeg_log = Logger.getLogger('ffmpeg'),
                 enable_stdin: bool = True,
                 ) -> None:
         
         self.process_name = process_name
 
         self.ffmpeg_args = ffmpeg_args
-
-        self.log = log
-
-        self.ffmpeg_log = ffmpeg_log
-
-        self.ffmpeg_debug = ffmpeg_debug
 
         self.enable_stdin = enable_stdin
 
@@ -74,7 +69,7 @@ class FfmpegProcess:
             else:
                 break
 
-        self.ffmpeg_log.debug("FFMPEG process stderr stream exit.")
+        self.log.debug("FFMPEG process stderr stream exit.")
 
     def __ffmpeg_subprocess_stderr_callback(self, line):
         decoded_line = str(line.decode()).replace('  ', '')

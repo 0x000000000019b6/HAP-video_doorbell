@@ -36,11 +36,17 @@ class VideoDoorbell(Camera):
                display_name: str,
                aid: int = None,
                iid_manager: IIDManager = None,
+               ffmpeg_debug: bool = True,
+               logger: Logger = None,
+
                doorbell_button_gpio_pin: int | None = None, # WM8960-Audio-HAT button gpio BCM: 17, BOARD: 11
                gpio_board: t.Literal['BOARD', 'BCM'] = 'BCM',
+               trigger_doorbell: bool = True,
+
                ):
           
           self.__doorbell_button_gpio_pin = doorbell_button_gpio_pin
+          self.__trigger_doorbell = trigger_doorbell
           self.__gpio_board: str = gpio_board
           self.__gpio: 'GPIO' = None
         
@@ -91,7 +97,9 @@ class VideoDoorbell(Camera):
                     str(gpio_pin)
                     ))
                
-               # self.doorbell_switch.set_value(0)
+               if self.__trigger_doorbell == True:
+               
+                    self.doorbell_switch.set_value(0)
 
      async def stop(self):
 

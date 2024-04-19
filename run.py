@@ -4,28 +4,22 @@ from hap_video_doorbell import (
     VideoDoorbell, Camera
 )
 
-logger = Logger.getLogger(__name__)
+# hap_protocol.logger = Logger.getLogger('hap_protocol')
 
-hap_protocol_logger = Logger.getLogger('hap_protocol')
+driver = AccessoryDriver(
+    port = 51826, 
+    persist_file = 'accessory.state'
+    )
 
-# hap_protocol.logger = hap_protocol_logger
-
-driver = AccessoryDriver(port=51826, persist_file='accessory.state')
-
-# acc = Camera(
-#     CAMERA_OPTIONS,
-#     driver,
-#     'Camera'
-#     )
-
-acc = VideoDoorbell(
+accessory = VideoDoorbell(
     driver = driver,
     display_name = 'VideoDoorbell',
     doorbell_button_gpio_pin = 11,
-    gpio_board = 'BOARD'
+    gpio_board = 'BOARD',
+    trigger_doorbell = False
     )
 
-driver.add_accessory(accessory=acc)
+driver.add_accessory(accessory)
 
 signal.signal(signal.SIGTERM, driver.signal_handler)
 

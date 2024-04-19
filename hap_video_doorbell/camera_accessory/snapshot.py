@@ -6,6 +6,7 @@ import subprocess
 import io
 from PIL import Image
 from time import time
+from .ffmpeg_process import FfmpegProcess
 
 @dataclass
 class SnapshotCache:
@@ -44,7 +45,7 @@ class Snapshot:
                 ffmpeg_path: str,
                 dev_video: str,
                 log: Logger,
-                cache_timeout: int
+                cache_timeout: int,
                 ) -> None:
         
         self.ffmpeg_path = ffmpeg_path
@@ -101,20 +102,6 @@ class Snapshot:
                     cmd = self.__format_cmd(image_size)
                     
                     self.log.debug("Snapshot command: %s" % (str(' '.join(cmd))))
-
-                    # cmd = [
-                    #     "/bin/ffmpeg",
-                    #     "-re",
-                    #     "-f", "video4linux2",
-                    #     "-i", "/dev/video0",
-                    #     "-s", "640x360",
-                    #     "-update", "1",
-                    #     "-vf", "fps=1",
-                    #     "-f", "image2",
-                    #     "-",
-                    #     "-hide_banner",
-                    #     "-loglevel", "error"
-                    # ]
 
                     process = await asyncio.create_subprocess_exec(*cmd,
                             stdout=subprocess.PIPE, 

@@ -48,7 +48,17 @@ class Camera(Accessory):
                display_name: str,
                aid: int = None,
                iid_manager: IIDManager = None,
+               ffmpeg_debug: bool = True,
+               logger: Logger = None
                ):
+        
+        if logger is not None:
+
+            self.log = logger
+        
+        FfmpegProcess.ffmpeg_debug = ffmpeg_debug
+        FfmpegProcess.log = self.log.getChild('FFmpegProcess')
+        FfmpegProcess.ffmpeg_log = self.log.getChild('ffmpeg')
 
         options = CAMERA_OPTIONS
 
@@ -69,7 +79,7 @@ class Camera(Accessory):
             ffmpeg_path = "/bin/ffmpeg",
             dev_video = "/dev/video0",
             log = self.log.getChild('Snapshot'),
-            cache_timeout = 5
+            cache_timeout = 5,
         )
 
         super().__init__(
@@ -532,9 +542,6 @@ class Camera(Accessory):
         ffmpeg_process = FfmpegProcess(
             process_name = 'camera',
             ffmpeg_args = cmd,
-            ffmpeg_debug = True,
-            log = self.log.getChild('FfmpegProcess'),
-            ffmpeg_log = self.log.getChild('ffmpeg')
         )
 
         await ffmpeg_process.start()
@@ -574,9 +581,6 @@ class Camera(Accessory):
         ffmpeg_process = FfmpegProcess(
             process_name = 'audio_return_stream',
             ffmpeg_args = cmd,
-            ffmpeg_debug = True,
-            log = self.log.getChild('FfmpegProcess'),
-            ffmpeg_log = self.log.getChild('ffmpeg'),
             enable_stdin = True
         )
 

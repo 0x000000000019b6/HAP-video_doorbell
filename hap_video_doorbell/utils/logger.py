@@ -33,3 +33,13 @@ class Logger(logging.Logger):
             logger.addHandler(file_handler)
 
         return logger
+    
+    def getChild(self, suffix: str) -> 'Logger':
+
+        child_logger = super().getChild(suffix)
+
+        for hander in self.handlers:
+            child_logger.addHandler(hander)
+        child_logger.setLevel(self.level)
+ 
+        return child_logger
